@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>axios iterate all object</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.6/axios.min.js"></script>
+</head>
+
+<body>
+    run loop to all the objects
+    <div id="loop"></div>
+    <script>
+        async function iteration() {
+            const result = await axios.get("https://jsonplaceholder.typicode.com/posts")
+            const arr = result.data
+            for (let i = 0; i < arr.length; i++) {
+                document.getElementById("loop").innerHTML += ("<div>" + arr[i].title + "</div>")
+            }
+        }
+        iteration()
+    </script>
+
+</body>
+
+</html>

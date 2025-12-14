@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>axios method to fetch API</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.6/axios.min.js"></script>
+</head>
+
+<body>
+    <div> Axio and Fetch </div>
+
+    <div id="A">
+        <h1> Axios</h1>
+        <h2 id="axios"></h2>
+        <h1> Fetch</h1>
+        <h2 id="fetch"></h2>
+    </div>
+    <script>
+        //axios is externa libery we have to bring it the script above src give it give acess of axios 
+        // axios is http client not http server,fetch also but exress is http server
+        // in cae of html ,css you need a script tag but in javascript you can use const axios = require("axios")
+
+        async function getData() {
+            const res_axios = await axios.get("https://jsonplaceholder.typicode.com/posts/1")
+            const res_fetch = await fetch("https://jsonplaceholder.typicode.com/posts/1") // I can write like this also
+
+            console.log("res_axios:", res_axios)
+
+            console.log("res_fetch:", res_fetch)
+
+            const res = await res_fetch.json()
+
+            console.log("res fetch res", res)
+
+            console.log(res)
+            // const indfo = await response1
+            document.getElementById("fetch").innerHTML = res.title;
+            document.getElementById("axios").innerHTML = res_axios.data.title;
+        }
+        getData()
+    </script>
+</body>
+
+</html>

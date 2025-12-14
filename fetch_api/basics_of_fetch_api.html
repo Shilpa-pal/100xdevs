@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    linkedin
+    <div id="post"></div>
+    <script>
+        async function getData() {
+            console.log("before sending the request")
+            // const url = "http://google.com";
+            // fetch role is basiclaly sending request to backened
+            // the below url is just dummy website we useing just to test can we hit various server
+            // we can replace it with http://googgle.com if i used this it will run html 
+            //              const response - await fetch ("https://googole.com)
+            // So we get response in variable and we used this resonse in 10 different things 
+
+
+            const response = await fetch("https://jsonplaceholder.typicode.com/posts/1", {
+                /*method:"post",
+                headers:{
+                    Cookie:"asd"
+                },
+                body:{
+                    // I want to send this body into json i want to send this headers
+                    // anything we can specify in second argument which is written after the fetch
+                }*/
+
+            })
+            // this convert data into json
+            const data = await response.json()
+            console.log(data)
+            console.log("requested has been proceed")
+            //this line help me to get discription below linkdin
+            document.getElementById("post").innerHTML = data.body// JSON.stingify(data) it return all the contain of object
+            //this line i used data.body becuse the url conatin object 
+            // in that there is stored id/title/body so i want innerhtml of body so i have choosen body we can scoose title .id as well
+        }
+        getData()
+    </script>
+
+</body>
+
+</html>

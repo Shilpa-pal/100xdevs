@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>axiso</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.6/axios.min.js"></script>
+</head>
+
+<body>
+    axios
+    <div id="A"></div>
+    <script>
+        async function getAxios() {
+            const response = await axios.get("https://jsonplaceholder.typicode.com/posts/1")
+            document.getElementById("A").innerHTML = response.data.title
+        }
+        getAxios()
+        //why we are using data for axios? bexuse response.data 
+        //response.data filled with what contains the final data 
+        //response have bunch of things like response.statuscode-will have status code of request 
+        //reponse.headers - will have headers of the request
+    </script>
+</body>
+
+</html>
