@@ -18,7 +18,6 @@ app.get("/name_add",(req,res)=>{
     res.json("Hello, " + a + " " + b )
     
 });
-<button> add </button>
 
 console.log('Started')
 app.listen(port,() =>{

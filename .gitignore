@@ -1,2 +1,9 @@
+
 /expressbasic.project/node_modules
+.env
+
+/Middlewares_and_cors/node_modules
+.env  
+
+/project/week-6-class2/node_modules
 .env

@@ -12,6 +12,9 @@ app.use(express.json());
 
 // define the port
 const PORT = 3001
+
+//note jSON.parse("{}") it convert string over object 
+//JSON.stringify({}) used to convert object into string
 // helper functions to find index of an object in an array and remove an object at a specific index
 function findIndex(arr, id) {
     // find the index of the object with the given id in the array
