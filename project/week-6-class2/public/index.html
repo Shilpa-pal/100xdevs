@@ -1,0 +1,78 @@
+<html>
+
+<head>
+    <title> Auth website</title>
+</head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.6/axios.min.js"></script>
+<script>
+    async function signup() {
+        const username = document.getElementById("signup-username");
+        const password = document.getElementById("signup-pass").value;
+        //we need to send the request to backened .how will you send th req to backened?
+        //by using axios or fetch 
+        // below line is way to send post req through axios
+        await axios.post("http://localhost:3000/signup", {//loction of sending post request
+            // what is endpoint? /signin is the endpoint
+
+            // what data we need to send with? we need to send below data
+            // I using asyn await function to make asynaconous function why/
+            // becuse it will  send to req to backened so it's take lot's of time mightbe 1,2 sec 
+            username: username,
+            password: password
+        })
+        alert("you are signed up");
+    }
+
+    async function signin() {
+        const username = document.getElementById("signin-username").value
+        const password = document.getElementById("signin-pass").value
+
+        const response = await axios.post("http://localhost:3000/signup", {
+            username: username,
+            password: password
+        })
+
+        // this will store this website token(it stores in the local storage)
+        localStorage.setItem("token", response.data.token)
+        alert("you are sign in")
+    }
+    // this helps to get information 
+    async function getuserInfo() {
+        const userinfo = document.getElementById("information").value
+        // it is going to send req to specific url with heders along
+        const response = await axios.get("http://localhost:3000/me", {// here I am sending the backened req with below headers
+            headers: {
+                //it fetch from localstorage 
+                token: localStorage.getItem('token') //i will get this token from local storage
+            }
+        })
+        document.getElementById("information").innerHTML="username:" + response.data.username + "Password:" + response.data.password
+    }
+    getuserInfo();
+</script>
+
+<body>
+    <div>
+        Singup
+        <input id="signup-username" type="text" name="username" placeholder="Username">
+        <input id="signup-pass" type="password" name="password" placeholder="password">
+        <button onclick="signup()"> submit</button>
+    </div>
+    <div>
+        Signin
+        <input id="signin-username" type="text" name="username" placeholder="Username">
+        <input id="signin-pass" type="password" name="password" placeholder="password">
+        <button onclick="signin()">submit</button>
+    </div>
+    <div>
+        User information
+        <div id="information"></div>
+    </div>
+    <div>
+        <button onclick="logout()">logout</button>
+    </div>
+
+
+</body>
+
+</html>

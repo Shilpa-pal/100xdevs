@@ -51,7 +51,6 @@ app.post("/signin",(req,res)=>{
             res.json({
                 token:token
             })
-
         }
     }   
 })
@@ -73,9 +72,7 @@ app.get("/me",(req,res)=>{
         //we want our username and password
          let founduser = null
     for(let i =0;i<users.length;i++){
-        if(users[i].username == decodedData.username
-            
-        ){
+        if(users[i].username == decodedData.username){
             // we have found the user in past and storing in founduser varible
             founduser = users[i]  
     }
