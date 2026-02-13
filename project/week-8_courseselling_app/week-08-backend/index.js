@@ -11,6 +11,9 @@ const app = express()
 
 // Middleware to parse JSON bodies
 app.use(express.json());
+
+///api/vi/ donating it's An API route (as opposed to fronted).v1 is the version. this is the
+//  standard way of defining API routes
 app.use("/api/vi/user",usersRouter);
 app.use("/api/vi/admin",adminRouter);
 app.use("/api/vi/course",courseRouter);
