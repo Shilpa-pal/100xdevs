@@ -1,4 +1,12 @@
-const { users } = require("express")
+// Import express module 
+// let express = require('express');
+// Create a new Router instance for user routes
+// let router = express.Router();
+
+// Import Router from express module
+const { Router} = require("express")
+
+// Create a new Router instance for user routes
 const usersRouter = Router()
 
 usersRouter.post("/signup", (req, res) => {
@@ -22,5 +30,5 @@ usersRouter.get("/purchase", (req, res) => {
 
 
 module.exports = {
-    usersRoutes: usersRoutes
+    usersRouter: usersRouter
 }

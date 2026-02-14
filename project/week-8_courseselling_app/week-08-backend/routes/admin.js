@@ -1,6 +1,7 @@
 
 const { Router } = require("express")
 const adminRouter = Router()
+const {adminModel} = require("../db")
 
 
 adminRouter.post("/signup", (req, res) => {
@@ -16,6 +17,8 @@ adminRouter.post("/signin", (req, res) => {
 
 })
 
+// I am not using endpoint name course becuse(/api/v1/course",courseRouter)
+// /api/v1/course/course  do bar ho jayega so that i only put "/" I don't want to put any extra
 adminRouter.post("/course", (req, res) => {
     res.json({
         message: ""
@@ -39,7 +42,7 @@ adminRouter.get("/course/bulk", (req, res) => {
 })
 
 //export 
-module.export ={
+module.exports ={
     adminRouter:adminRouter
 
 }
