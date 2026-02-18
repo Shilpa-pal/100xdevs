@@ -11,13 +11,14 @@ const usersRouter = Router()
 
 
 // Import userModel from the database folder to interact with user data
-const { userModel } = require("../db");
+const { userModel, purchaseModel, courseModel } = require("../db");
 
 // Import necessary modules for handling JWT, password hashing, and schema validation
 const jwt = require("jsonwebtoken");
-const {JWT_USER_PASSWORD} = require("../config")
+const { JWT_USER_PASSWORD } = require("../config")
 const bcrypt = require("bcrypt");
 const zod = require("zod");
+const { userMiddleware } = require("../middleware/user");
 
 usersRouter.post("/signup", async (req, res) => {
 
@@ -30,9 +31,9 @@ usersRouter.post("/signup", async (req, res) => {
         lastName: zod.string().min(3), // Last name must be at least 3 characters long
 
     })
-// Parse and validate the incoming request body data
+    // Parse and validate the incoming request body data
     const parseDataWithSuccess = requireBody.safeParse(req.body)
-        // If validation fails, return a 400 error with the validation error details
+    // If validation fails, return a 400 error with the validation error details
     if (!parseDataWithSuccess.success) {
         res.json({
             message: "incorrect  data format",
@@ -89,10 +90,10 @@ usersRouter.post("/signin", async (req, res) => {
             error: parseDataWithSuccess.error, // Provide details about the validation error 
         })
     }
- // Extract validated email and password from the request body
+    // Extract validated email and password from the request body
     const { email, password } = req.body
 
-    
+
     // Attempt to find the user with the provided email in the database
     const user = await userModel.findone({
         email: email,
@@ -106,7 +107,7 @@ usersRouter.post("/signin", async (req, res) => {
         });
     }
     //comapare the provided password with the stored hashed password using bcrypt
-    const passwordMatch = await bcrypt.compare(password,user.password)
+    const passwordMatch = await bcrypt.compare(password, user.password)
     //if user found,
     if (passwordMatch) {
         const token = jwt.sign({
@@ -121,12 +122,42 @@ usersRouter.post("/signin", async (req, res) => {
         })
     }
 })
-usersRouter.get("/purchase", (req, res) => {
+
+// To see all the purchases
+usersRouter.get("/purchase", userMiddleware, async (req, res) => {
+    // Get the userId from the request object set by the userMiddleware
+    const userId = req.userId
+
+    // Find all purchase records associated with the authenticated userId
+    const purchases = await purchaseModel.find({
+        userId: userId, // Querying purchases by user ID//"Give me all documents where the userId field matches this user's ID."
+    });
+
+    // If no purchases are found, return a 404 error response to the client
+    if (!purchases) {
+        return res.status(404).json({
+            message: "No purchases found", // Error message for no purchases found
+        });
+    }
+    // If purchases are found, extract the courseIds from the found purchases
+    const purchasesCourseIds = purchases.map((purchase) => purchase.courseId);
+
+    // let purchasecourseId = []
+    // for (let i = 0; i < purchases.length; i++) {
+    //     purchasecourseId.push(purchases[i].courseId)
+    // }
+    const courseData = await courseModel.find({
+        _id: {$in:purchasesCourseIds}
+    })
+    // Send the purchases and corresponding course details back to the client
     res.json({
-        message: ""
+        purchases,
+        courseData
     })
 
 })
+
+// Export the userRouter so it can be imported and used in other parts of the application
 module.exports = {
     usersRouter: usersRouter
 }

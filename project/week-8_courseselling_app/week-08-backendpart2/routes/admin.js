@@ -72,7 +72,11 @@ adminRouter.post("/signin", async (req, res) => {
             error: parseDataWithSuccess.error, // Provide details about the validation error "
         })
     }
+    
+    // Get email and password from the request body
     const { email, password } = req.body
+
+     // Find the admin with the given email
     const admin = await adminModel.findone({
         email,
         password
@@ -83,13 +87,14 @@ adminRouter.post("/signin", async (req, res) => {
             message: "Incorrect Credentials!", // Error message for invalid login attempt
         });
     }
+        // Compare the password with the hashed password using the bcrypt.compare() method
     const passwordMatch = await bcrypt.compare(password, admin.password)
 
     // if admin found
     if (passwordMatch) {
         const token = jwt.sign({
             id: admin._id
-        }, JWT_ADMIN_PASSSWORD)
+        },JWT_ADMIN_PASSWORD)
         res.json({
             token: token
         })
